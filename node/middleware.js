@@ -13,11 +13,7 @@ app.use((req,res,next)=>{
 });
 
 app.get('/',(req,res)=>{
-    res.send('Hello World');
-});
-
-app.get('/about',(req,res)=>{
-    res.send('About Us');
+    res.send('Middlewares');
 });
 
 app.get('/profile/:commentId/:Id',(req,res)=>{
