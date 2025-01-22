@@ -1,5 +1,5 @@
 const express=require('express');
-
+const fs = require('fs');
 const app=express();
 
 
@@ -11,6 +11,29 @@ app.use((req,res,next)=>{
     console.log('Request IP:',req.ip);
     next();
 });
+
+
+app.use((req, res, next) => {
+    const logEntry = {
+        timestamp: new Date().toISOString(),
+        ip: req.ip,
+        url: req.url,
+        method: req.method,
+        hostname: req.hostname,
+    };
+    const logString = JSON.stringify(logEntry) + '\n';
+
+    fs.appendFile('requests.log', logString, (err) => {
+        if (err) {
+            console.error('Failed to write log entry:', err);
+        }
+        else{
+            console.log("log entry done");
+        }
+    });
+    next();
+});
+
 
 app.get('/',(req,res)=>{
     res.send('Middlewares');
